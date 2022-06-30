@@ -7,4 +7,28 @@ local GameMain = { }
 
 print("Hello World")
 
+a = 123
+
+function GameMain:Awake()
+    print("Awake")
+end
+
+function GameMain:Update()
+    print("Update")
+end
+
+local test_1 = CS.UnityEngine.GameObject()
+test_1.name = "Lua Test"
+test_1.transform.localPosition = CS.UnityEngine.Vector3(0, 10, 0)
+
+local obj = CS.UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Res/UI/luaBehaviour.prefab")
+
+local luaTest = CS.UnityEngine.GameObject.Instantiate(obj);
+--string resPath = "Assets/GameRes/Cube.prefab";
+
+--GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(resPath);
+
+--GameObject go = Instantiate<GameObject>(prefab);
+
+print(test_1.transform.localPosition.y)
 return GameMain

@@ -31,14 +31,10 @@ public class XLuaManager : MonoBehaviour
     {
         return m_luaEnv;
     }
-
-    private void Awake()
+    
+    void Awake()
     {
         DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
         LuaEnv luaenv = new LuaEnv();
 
         if (m_instance != null)
@@ -53,9 +49,23 @@ public class XLuaManager : MonoBehaviour
         // m_luaEnv.AddBuildin("memstream",XLua.LuaDLL.Lua.LoadMemStream);
         m_luaEnv.AddLoader(CustomLuaLoaderMethod);
         
+        // m_luaEnv.DoString("require 'GameMain.lua'");
         m_luaEnv.DoString(GetLuaFileBytes("GameMain.lua"), "GameMain", null);
     }
 
+    /// <summary>
+    /// 用于测试
+    /// </summary>
+    void Start()
+    {
+       int a = m_luaEnv.Global.Get<int>("a");
+       Debug.LogError(a);
+       m_luaEnv.Global.Set(123, 456);
+       int i;
+       m_luaEnv.Global.Get(123, out i);
+       Debug.LogError(i);
+    }
+    
     private void OnDestroy()
     {
         m_luaEnv = null;
@@ -102,5 +112,13 @@ public class XLuaManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 获取lua文件根路径 不同平台root路径不一致
+    /// </summary>
+    public void GetLuaRootPath()
+    {
+        
     }
 }

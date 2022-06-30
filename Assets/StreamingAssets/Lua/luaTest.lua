@@ -5,4 +5,8 @@
 ---
 local luaTest = class("luaTest")
 
+function luaTest:Awake()
+    print("Awake");
+end
+
 return luaTest
