@@ -3,6 +3,10 @@
 --- Created by admin.
 --- DateTime: 2022/6/29 18:20
 ---
+package.cpath = package.cpath .. ';C:/Users/admin/AppData/Roaming/JetBrains/Rider2021.3/plugins/EmmyLua/debugger/emmy/windows/x64/?.dll'
+local dbg = require('emmy_core')
+dbg.tcpConnect('localhost', 9966)
+
 local GameMain = { }
 
 print("Hello World")
@@ -21,9 +25,15 @@ local test_1 = CS.UnityEngine.GameObject()
 test_1.name = "Lua Test"
 test_1.transform.localPosition = CS.UnityEngine.Vector3(0, 10, 0)
 
-local obj = CS.UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Res/UI/luaBehaviour.prefab")
+obj = 123
 
-local luaTest = CS.UnityEngine.GameObject.Instantiate(obj);
+--local a = CS.Vector3(0, 1, 1)
+local a = CS.DefaultNamespace.ResLoad
+local testObj = CS.DefaultNamespace.ResLoad.LoadRes("Assets/Res/UI/TestPanel.prefab")
+local test = CS.UnityEngine.GameObject.Instantiate(testObj)
+
+--local luaTest = CS.UnityEngine.GameObject.Instantiate(obj)
+
 --string resPath = "Assets/GameRes/Cube.prefab";
 
 --GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(resPath);

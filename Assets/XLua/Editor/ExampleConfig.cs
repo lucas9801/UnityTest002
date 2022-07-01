@@ -9,131 +9,155 @@
 using System.Collections.Generic;
 using System;
 using XLua;
+using UnityEngine;
 using System.Reflection;
 using System.Linq;
+using DefaultNamespace;
 
 //配置的详细介绍请看Doc下《XLua的配置.doc》
 public static class ExampleConfig
 {
     /***************如果你全lua编程，可以参考这份自动化配置***************/
     //--------------begin 纯lua编程配置参考----------------------------
-    //static List<string> exclude = new List<string> {
-    //    "HideInInspector", "ExecuteInEditMode",
-    //    "AddComponentMenu", "ContextMenu",
-    //    "RequireComponent", "DisallowMultipleComponent",
-    //    "SerializeField", "AssemblyIsEditorAssembly",
-    //    "Attribute", "Types",
-    //    "UnitySurrogateSelector", "TrackedReference",
-    //    "TypeInferenceRules", "FFTWindow",
-    //    "RPC", "Network", "MasterServer",
-    //    "BitStream", "HostData",
-    //    "ConnectionTesterStatus", "GUI", "EventType",
-    //    "EventModifiers", "FontStyle", "TextAlignment",
-    //    "TextEditor", "TextEditorDblClickSnapping",
-    //    "TextGenerator", "TextClipping", "Gizmos",
-    //    "ADBannerView", "ADInterstitialAd",
-    //    "Android", "Tizen", "jvalue",
-    //    "iPhone", "iOS", "Windows", "CalendarIdentifier",
-    //    "CalendarUnit", "CalendarUnit",
-    //    "ClusterInput", "FullScreenMovieControlMode",
-    //    "FullScreenMovieScalingMode", "Handheld",
-    //    "LocalNotification", "NotificationServices",
-    //    "RemoteNotificationType", "RemoteNotification",
-    //    "SamsungTV", "TextureCompressionQuality",
-    //    "TouchScreenKeyboardType", "TouchScreenKeyboard",
-    //    "MovieTexture", "UnityEngineInternal",
-    //    "Terrain", "Tree", "SplatPrototype",
-    //    "DetailPrototype", "DetailRenderMode",
-    //    "MeshSubsetCombineUtility", "AOT", "Social", "Enumerator",
-    //    "SendMouseEvents", "Cursor", "Flash", "ActionScript",
-    //    "OnRequestRebuild", "Ping",
-    //    "ShaderVariantCollection", "SimpleJson.Reflection",
-    //    "CoroutineTween", "GraphicRebuildTracker",
-    //    "Advertisements", "UnityEditor", "WSA",
-    //    "EventProvider", "Apple",
-    //    "ClusterInput", "Motion",
-    //    "UnityEngine.UI.ReflectionMethodsCache", "NativeLeakDetection",
-    //    "NativeLeakDetectionMode", "WWWAudioExtensions", "UnityEngine.Experimental",
-    //};
+    static List<string> exclude = new List<string> {
+        "HideInInspector", "ExecuteInEditMode",
+        "AddComponentMenu", "ContextMenu",
+        "RequireComponent", "DisallowMultipleComponent",
+        "SerializeField", "AssemblyIsEditorAssembly",
+        "Attribute", "Types",
+        "UnitySurrogateSelector", "TrackedReference",
+        "TypeInferenceRules", "FFTWindow",
+        "RPC", "Network", "MasterServer",
+        "BitStream", "HostData",
+        "ConnectionTesterStatus", "GUI", "EventType",
+        "EventModifiers", "FontStyle", "TextAlignment",
+        "TextEditor", "TextEditorDblClickSnapping",
+        "TextGenerator", "TextClipping", "Gizmos",
+        "ADBannerView", "ADInterstitialAd",
+        "Android", "Tizen", "jvalue",
+        "iPhone", "iOS", "Windows", "CalendarIdentifier",
+        "CalendarUnit", "CalendarUnit",
+        "ClusterInput", "FullScreenMovieControlMode",
+        "FullScreenMovieScalingMode", "Handheld",
+        "LocalNotification", "NotificationServices",
+        "RemoteNotificationType", "RemoteNotification",
+        "SamsungTV", "TextureCompressionQuality",
+        "TouchScreenKeyboardType", "TouchScreenKeyboard",
+        "MovieTexture", "UnityEngineInternal",
+        "Terrain", "Tree", "SplatPrototype",
+        "DetailPrototype", "DetailRenderMode",
+        "MeshSubsetCombineUtility", "AOT", "Social", "Enumerator",
+        "SendMouseEvents", "Cursor", "Flash", "ActionScript",
+        "OnRequestRebuild", "Ping",
+        "ShaderVariantCollection", "SimpleJson.Reflection",
+        "CoroutineTween", "GraphicRebuildTracker",
+        "Advertisements", "UnityEditor", "WSA",
+        "EventProvider", "Apple",
+        "ClusterInput", "Motion",
+        "UnityEngine.UI.ReflectionMethodsCache", "NativeLeakDetection",
+        "NativeLeakDetectionMode", "WWWAudioExtensions", "UnityEngine.Experimental",
+    };
 
-    //static bool isExcluded(Type type)
-    //{
-    //    var fullName = type.FullName;
-    //    for (int i = 0; i < exclude.Count; i++)
-    //    {
-    //        if (fullName.Contains(exclude[i]))
-    //        {
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
+    static bool isExcluded(Type type)
+    {
+        var fullName = type.FullName;
+        for (int i = 0; i < exclude.Count; i++)
+        {
+            if (fullName.Contains(exclude[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    //[LuaCallCSharp]
-    //public static IEnumerable<Type> LuaCallCSharp
-    //{
-    //    get
-    //    {
-    //        List<string> namespaces = new List<string>() // 在这里添加名字空间
-    //        {
-    //            "UnityEngine",
-    //            "UnityEngine.UI"
-    //        };
-    //        var unityTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-    //                          where !(assembly.ManifestModule is System.Reflection.Emit.ModuleBuilder)
-    //                          from type in assembly.GetExportedTypes()
-    //                          where type.Namespace != null && namespaces.Contains(type.Namespace) && !isExcluded(type)
-    //                                  && type.BaseType != typeof(MulticastDelegate) && !type.IsInterface && !type.IsEnum
-    //                          select type);
+    [LuaCallCSharp]
+    public static IEnumerable<Type> LuaCallCSharp
+    {
+        get
+        {
+            List<string> namespaces = new List<string>() // 在这里添加名字空间
+            {
+                "UnityEngine",
+                "UnityEngine.UI",
+                "KBEngine",
+                "DefaultNamespace",
+            };
+            var unityTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                              where !(assembly.ManifestModule is System.Reflection.Emit.ModuleBuilder)
+                              from type in assembly.GetExportedTypes()
+                              where type.Namespace != null && namespaces.Contains(type.Namespace) && !isExcluded(type)
+                                      && type.BaseType != typeof(MulticastDelegate) && !type.IsInterface && !type.IsEnum
+                              select type);
 
-    //        string[] customAssemblys = new string[] {
-    //            "Assembly-CSharp",
-    //        };
-    //        var customTypes = (from assembly in customAssemblys.Select(s => Assembly.Load(s))
-    //                           from type in assembly.GetExportedTypes()
-    //                           where type.Namespace == null || !type.Namespace.StartsWith("XLua")
-    //                                   && type.BaseType != typeof(MulticastDelegate) && !type.IsInterface && !type.IsEnum
-    //                           select type);
-    //        return unityTypes.Concat(customTypes);
-    //    }
-    //}
+            string[] customAssemblys = new string[] {
+                "Assembly-CSharp",
+            };
+            var customTypes = (from assembly in customAssemblys.Select(s => Assembly.Load(s))
+                               from type in assembly.GetExportedTypes()
+                               where type.Namespace == null || !type.Namespace.StartsWith("XLua")
+                                       && type.BaseType != typeof(MulticastDelegate) && !type.IsInterface && !type.IsEnum
+                               select type);
+            
+            var autoTypes = unityTypes.Concat(customTypes).Concat(LuaCallCSharpSpecialType);
 
-    ////自动把LuaCallCSharp涉及到的delegate加到CSharpCallLua列表，后续可以直接用lua函数做callback
-    //[CSharpCallLua]
-    //public static List<Type> CSharpCallLua
-    //{
-    //    get
-    //    {
-    //        var lua_call_csharp = LuaCallCSharp;
-    //        var delegate_types = new List<Type>();
-    //        var flag = BindingFlags.Public | BindingFlags.Instance
-    //            | BindingFlags.Static | BindingFlags.IgnoreCase | BindingFlags.DeclaredOnly;
-    //        foreach (var field in (from type in lua_call_csharp select type).SelectMany(type => type.GetFields(flag)))
-    //        {
-    //            if (typeof(Delegate).IsAssignableFrom(field.FieldType))
-    //            {
-    //                delegate_types.Add(field.FieldType);
-    //            }
-    //        }
+            List<Type> LuaCallCSharpAll = new List<Type>(1024);
+            foreach (Type t in autoTypes)
+            {
+                LuaCallCSharpAll.Add(t);
+                //将内部类型也抠出来
+                foreach (Type tt in t.GetNestedTypes(BindingFlags.Public))
+                    LuaCallCSharpAll.Add(tt);
+            }
 
-    //        foreach (var method in (from type in lua_call_csharp select type).SelectMany(type => type.GetMethods(flag)))
-    //        {
-    //            if (typeof(Delegate).IsAssignableFrom(method.ReturnType))
-    //            {
-    //                delegate_types.Add(method.ReturnType);
-    //            }
-    //            foreach (var param in method.GetParameters())
-    //            {
-    //                var paramType = param.ParameterType.IsByRef ? param.ParameterType.GetElementType() : param.ParameterType;
-    //                if (typeof(Delegate).IsAssignableFrom(paramType))
-    //                {
-    //                    delegate_types.Add(paramType);
-    //                }
-    //            }
-    //        }
-    //        return delegate_types.Where(t => t.BaseType == typeof(MulticastDelegate) && !hasGenericParameter(t) && !delegateHasEditorRef(t)).Distinct().ToList();
-    //    }
-    //}
+            return LuaCallCSharpAll;
+            
+            // return unityTypes.Concat(customTypes);
+        }
+    }
+
+    private static List<Type> LuaCallCSharpSpecialType = new List<Type>()
+    {
+        typeof(ResLoad),
+        // typeof(Test),
+    };
+
+    // //自动把LuaCallCSharp涉及到的delegate加到CSharpCallLua列表，后续可以直接用lua函数做callback
+    // [CSharpCallLua]
+    // public static List<Type> CSharpCallLua
+    // {
+    //     get
+    //     {
+    //         var lua_call_csharp = LuaCallCSharp;
+    //         var delegate_types = new List<Type>();
+    //         var flag = BindingFlags.Public | BindingFlags.Instance
+    //             | BindingFlags.Static | BindingFlags.IgnoreCase | BindingFlags.DeclaredOnly;
+    //         foreach (var field in (from type in lua_call_csharp select type).SelectMany(type => type.GetFields(flag)))
+    //         {
+    //             if (typeof(Delegate).IsAssignableFrom(field.FieldType))
+    //             {
+    //                 delegate_types.Add(field.FieldType);
+    //             }
+    //         }
+    //
+    //         foreach (var method in (from type in lua_call_csharp select type).SelectMany(type => type.GetMethods(flag)))
+    //         {
+    //             if (typeof(Delegate).IsAssignableFrom(method.ReturnType))
+    //             {
+    //                 delegate_types.Add(method.ReturnType);
+    //             }
+    //             foreach (var param in method.GetParameters())
+    //             {
+    //                 var paramType = param.ParameterType.IsByRef ? param.ParameterType.GetElementType() : param.ParameterType;
+    //                 if (typeof(Delegate).IsAssignableFrom(paramType))
+    //                 {
+    //                     delegate_types.Add(paramType);
+    //                 }
+    //             }
+    //         }
+    //         return delegate_types.Where(t => t.BaseType == typeof(MulticastDelegate) && !hasGenericParameter(t) && !delegateHasEditorRef(t)).Distinct().ToList();
+    //     }
+    // }
     //--------------end 纯lua编程配置参考----------------------------
 
     /***************热补丁可以参考这份自动化配置***************/

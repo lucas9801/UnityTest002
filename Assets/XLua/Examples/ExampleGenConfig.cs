@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System;
+using DefaultNamespace;
 using UnityEngine;
 using XLua;
 //using System.Reflection;
@@ -21,6 +22,7 @@ public static class ExampleGenConfig
     public static List<Type> LuaCallCSharp = new List<Type>() {
                 typeof(System.Object),
                 typeof(UnityEngine.Object),
+                typeof(ResLoad),
                 typeof(Vector2),
                 typeof(Vector3),
                 typeof(Vector4),

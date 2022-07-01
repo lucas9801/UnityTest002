@@ -187,7 +187,7 @@ public class LuaBehaviour : MonoBehaviour
     {
         m_scriptEnv.Set("gameObject", this.gameObject);
 
-        // m_scriptEnv.Set<string, OnClickDelegate>("AddButtonOnClick", AddButtonOnClick);
+        m_scriptEnv.Set<string, OnClickDelegate>("AddButtonOnClick", AddButtonOnClick);
         // m_scriptEnv.Set<string, OnValueChangedDelegate>("AddToggleOnValueChanged", AddToggleOnValueChanged);
         // m_scriptEnv.Set<string, OnIntValueChangedDelegate>("AddDropDownOnValueChanged", AddDropDownOnValueChanged);
         // m_scriptEnv.Set<string, OnScrllRectValueChangedDelegate>("AddScrollRectOnValueChanged", AddScrollRectOnValueChanged);
@@ -204,40 +204,40 @@ public class LuaBehaviour : MonoBehaviour
         //}
     }
     
-    // #region Lua注入接口
-    // /// <summary>
-    // /// 给一个Button添加Click事件
-    // /// </summary>
-    // /// <param name="button">Button组件</param>
-    // /// <param name="call">回调</param>
-    // public void AddButtonOnClick(Button button, UnityAction<LuaTable, GameObject> call)
-    // {
-    //     if (button == null || call == null)
-    //         return;
-    //     UnityAction onClick = () =>
-    //     {
-    //         if (call != null)
-    //         {
-    //             call(m_scriptEnv, button.gameObject);
-    //         }
-    //     };
-    //
-    //     //button.onClick.RemoveAllListeners();
-    //
-    //     if (!m_buttonClickDelegate.ContainsKey(button))
-    //     {
-    //         m_buttonClickDelegate.Add(button, onClick);
-    //     }
-    //     else
-    //     {
-    //         button.onClick.RemoveListener(m_buttonClickDelegate[button]);
-    //         m_buttonClickDelegate[button] = onClick;
-    //     }
-    //
-    //     button.onClick.AddListener(onClick);
-    //     //if (!m_buttonClickDelegate.Contains(button))
-    //     //    m_buttonClickDelegate.Add(button);
-    // }
+    #region Lua注入接口
+    /// <summary>
+    /// 给一个Button添加Click事件
+    /// </summary>
+    /// <param name="button">Button组件</param>
+    /// <param name="call">回调</param>
+    public void AddButtonOnClick(Button button, UnityAction<LuaTable, GameObject> call)
+    {
+        if (button == null || call == null)
+            return;
+        UnityAction onClick = () =>
+        {
+            if (call != null)
+            {
+                call(m_scriptEnv, button.gameObject);
+            }
+        };
+    
+        //button.onClick.RemoveAllListeners();
+    
+        if (!m_buttonClickDelegate.ContainsKey(button))
+        {
+            m_buttonClickDelegate.Add(button, onClick);
+        }
+        else
+        {
+            button.onClick.RemoveListener(m_buttonClickDelegate[button]);
+            m_buttonClickDelegate[button] = onClick;
+        }
+    
+        button.onClick.AddListener(onClick);
+        //if (!m_buttonClickDelegate.Contains(button))
+        //    m_buttonClickDelegate.Add(button);
+    }
     //
     // /// <summary>
     // /// 给一个toggle添加状态变化事件(之前只能注册一个事件，局限性太大，容易有bug，改成了lua里面只能注册一个事件)
@@ -448,7 +448,7 @@ public class LuaBehaviour : MonoBehaviour
     //     tweener.onComplete = oncom;
     // }
     //
-    // #endregion
+    #endregion
     
     
 }

@@ -3,10 +3,23 @@
 --- Created by admin.
 --- DateTime: 2022/6/29 17:33
 ---
-local luaTest = class("luaTest")
+local luaTest = {}
 
 function luaTest:Awake()
-    print("Awake");
+    print("Awake")
+    local testBtn = self.gameObject.transform:Find("Button"):GetComponent("Button")
+    testBtn.transform.localPosition = CS.UnityEngine.Vector3(0, 0, 0)
+    self.m_testBtnText = testBtn.transform:Find("Text"):GetComponent("Text")
+    self.AddButtonOnClick(testBtn, self.OnClickTestButton)
+end
+
+function luaTest:OnClickTestButton()
+    self.m_testBtnText.text = "测试按钮"
+    print("OnClickTestButton")
+end
+
+function luaTest:Update()
+    --print("Update")
 end
 
 return luaTest
