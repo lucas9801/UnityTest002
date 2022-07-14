@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 1559414285
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9d7013c97359b0382e3ba6a2db1f4a49
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 92fa2e136e1a0965019d5b46d8a7d9a8
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2ae5daad3600dac479e3d968fffcc971, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/Res/Framework/XLuaManager.prefab
+Dependencies: []
