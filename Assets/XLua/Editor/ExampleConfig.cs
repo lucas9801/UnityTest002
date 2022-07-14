@@ -12,7 +12,6 @@ using XLua;
 using UnityEngine;
 using System.Reflection;
 using System.Linq;
-using DefaultNamespace;
 
 //配置的详细介绍请看Doc下《XLua的配置.doc》
 public static class ExampleConfig
@@ -81,7 +80,7 @@ public static class ExampleConfig
                 "UnityEngine",
                 "UnityEngine.UI",
                 "KBEngine",
-                "DefaultNamespace",
+                // "DefaultNamespace",
             };
             var unityTypes = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
                               where !(assembly.ManifestModule is System.Reflection.Emit.ModuleBuilder)
@@ -91,7 +90,8 @@ public static class ExampleConfig
                               select type);
 
             string[] customAssemblys = new string[] {
-                "Assembly-CSharp",
+                // "Assembly-CSharp",
+                // "Assembly-CSharp-Editor",
             };
             var customTypes = (from assembly in customAssemblys.Select(s => Assembly.Load(s))
                                from type in assembly.GetExportedTypes()
@@ -119,7 +119,7 @@ public static class ExampleConfig
     private static List<Type> LuaCallCSharpSpecialType = new List<Type>()
     {
         typeof(ResLoad),
-        // typeof(Test),
+        typeof(Test),
     };
 
     // //自动把LuaCallCSharp涉及到的delegate加到CSharpCallLua列表，后续可以直接用lua函数做callback

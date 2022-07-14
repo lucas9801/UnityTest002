@@ -89,8 +89,15 @@ public class LuaBehaviour : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError(string.Format("lua{0} Start error:{1}", m_luaScript,e.Message));
-        }
+            Debug.LogError(string.Format("lua{0} Start error:{1}", m_luaScript, e.Message));
+        } 
+        
+        // Debug.Log(Time.realtimeSinceStartup);
+        // for (int i = 0; i < 100000; i++)
+        // {
+        //     GameObject obj = new GameObject();
+        // }
+        // Debug.Log(Time.realtimeSinceStartup);
     }
 
     private void Update()

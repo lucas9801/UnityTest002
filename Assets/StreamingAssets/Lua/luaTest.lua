@@ -15,11 +15,11 @@ end
 
 function luaTest:OnClickTestButton()
     self.m_testBtnText.text = "测试按钮"
-    print("OnClickTestButton")
+    --local obj = CS.UnityEngine.UI.ima
 end
 
 function luaTest:Update()
-    --print("Update")
+
 end
 
 return luaTest

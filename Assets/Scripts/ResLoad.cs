@@ -7,23 +7,24 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 #endif
-
-namespace DefaultNamespace
+public class ResLoad
 {
-    public class ResLoad
+    public static UnityEngine.Object LoadRes(string path, System.Type type = null)
     {
-        public static UnityEngine.Object LoadRes(string path, System.Type type = null)
+#if UNITY_EDITOR
+        if (type == null)
         {
-            if (type == null)
-            {
-                type = typeof(object);
-            }
-            UnityEngine.Object objRet = AssetDatabase.LoadAssetAtPath(path, type);
-            if (null == objRet)
-            {
-                Debug.LogError(string.Format("加载失败：{0}", path));
-            }
-            return objRet;
+            type = typeof(object);
         }
+        UnityEngine.Object objRet = AssetDatabase.LoadAssetAtPath(path, type);
+        if (null == objRet)
+        {
+            Debug.LogError(string.Format("加载失败：{0}", path));
+        }
+        return objRet;
+#else
+        return null;
+#endif
+
     }
 }

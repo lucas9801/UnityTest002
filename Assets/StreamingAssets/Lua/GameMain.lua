@@ -3,9 +3,9 @@
 --- Created by admin.
 --- DateTime: 2022/6/29 18:20
 ---
-package.cpath = package.cpath .. ';C:/Users/admin/AppData/Roaming/JetBrains/Rider2021.3/plugins/EmmyLua/debugger/emmy/windows/x64/?.dll'
-local dbg = require('emmy_core')
-dbg.tcpConnect('localhost', 9966)
+--package.cpath = package.cpath .. ';C:/Users/admin/AppData/Roaming/JetBrains/Rider2021.3/plugins/EmmyLua/debugger/emmy/windows/x64/?.dll'
+--local dbg = require('emmy_core')
+--dbg.tcpConnect('localhost', 9966)
 
 local GameMain = { }
 
@@ -28,8 +28,8 @@ test_1.transform.localPosition = CS.UnityEngine.Vector3(0, 10, 0)
 obj = 123
 
 --local a = CS.Vector3(0, 1, 1)
-local a = CS.DefaultNamespace.ResLoad
-local testObj = CS.DefaultNamespace.ResLoad.LoadRes("Assets/Res/UI/TestPanel.prefab")
+local a = CS.ResLoad
+local testObj = CS.ResLoad.LoadRes("Assets/Res/UI/TestPanel.prefab")
 local test = CS.UnityEngine.GameObject.Instantiate(testObj)
 
 --local luaTest = CS.UnityEngine.GameObject.Instantiate(obj)
