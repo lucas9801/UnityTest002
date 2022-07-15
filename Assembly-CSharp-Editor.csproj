@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\AssetBundleBuilder.cs" />
     <Compile Include="Assets\XLua\Editor\ExampleConfig.cs" />
-    <Compile Include="Assets\XLua\Examples\13_BuildFromCLI\Editor\BuildFromCLI.cs" />
     <Compile Include="Assets\XLua\Src\Editor\Generator.cs" />
     <Compile Include="Assets\XLua\Src\Editor\Hotfix.cs" />
     <Compile Include="Assets\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.cs" />

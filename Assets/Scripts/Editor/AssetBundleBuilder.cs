@@ -10,20 +10,28 @@ using Object = UnityEngine.Object;
 
 public static class AssetBundleBuilder
 {
-    public static string ABPath = Application.streamingAssetsPath + "/AssetsBundles";
-    public static int Index = 0;
-    public class ABMarkItem
+    public static string ABPath = Application.streamingAssetsPath + "/AssetsBundles";           //ab包出包路径
+    public static int Index = 0;                                                                //用来做ab包包名
+    /// <summary>
+    /// path:路径
+    /// Filter：筛选资源类型
+    /// Name：ab包包名 如果时原生资源可以在初始化时生成包名，非原生资源后续查找依赖动态生成包名
+    /// </summary>
+    public class ABMarkItem                     
     {
         public string Path;
         public Func<string, bool> Filter;
         public string Name;
     }
     
+    /// <summary>
+    /// key：AssetBundleName
+    /// value:AssetBundleBuild
+    /// </summary>
     static Dictionary<string, AssetBundleBuild> allABBuildDict = new Dictionary<string, AssetBundleBuild>();
     /// <summary>
     /// 实现动态设置ab包名
     /// </summary>
-    [MenuItem("Tools/BuildABSymbol")]
     public static void BuildABSymbol()
     {
         List<ABMarkItem> list = new List<ABMarkItem>
@@ -31,14 +39,22 @@ public static class AssetBundleBuilder
             new ABMarkItem{Path = "Assets/Res/Framework", Filter = name => name.EndsWith(".prefab")},
             new ABMarkItem{Path = "Assets/Res/UI", Filter = name => name.EndsWith(".prefab") },
         };
+        
         List<string> processAsset = new List<string>();
         
+        //查找文件夹中所有资源
         foreach (var item in list)
         {
             LoopAllUnityObjectsInFolder(item.Path,obj => CollectABNameWithDependence(obj, allABBuildDict, processAsset), item.Filter);
         }
     }
 
+    /// <summary>
+    /// 有依赖的资源
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="allABBuildDict"></param>
+    /// <param name="processAsset"></param>
     public static void CollectABNameWithDependence(Object obj, Dictionary<string, AssetBundleBuild> allABBuildDict, List<string> processAsset)
     {
         string path = AssetDatabase.GetAssetPath(obj);
@@ -46,6 +62,25 @@ public static class AssetBundleBuilder
         InnerCollectABWithDependence(path, tag, allABBuildDict, processAsset);
     }
 
+    /// <summary>
+    /// 没有依赖的原生资源
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="tag"></param>
+    /// <param name="allABBuildDict"></param>
+    public static void CollectABNameWithOutDependece(string path, string tag, Dictionary<string, AssetBundleBuild> allABBuildDict)
+    {
+        CollectOneABItem(path, tag, allABBuildDict);
+    }
+
+    /// <summary>
+    /// 遍历资源以及依赖资源
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="tag"></param>
+    /// <param name="allABBuildDict"></param>
+    /// <param name="processAsset"></param>
+    /// <param name="root"></param>
     public static void InnerCollectABWithDependence(string path, string tag, Dictionary<string, AssetBundleBuild> allABBuildDict, List<string> processAsset, string root = null)
     {
         string lowerPath = path.ToLower();
@@ -59,7 +94,7 @@ public static class AssetBundleBuilder
         processAsset.Add(path);
         CollectOneABItem(path, tag, allABBuildDict);
         
-        //获取依赖资产路径
+        //获取依赖资产路径 false:返回直接相关的依赖资产
         var dependencies = AssetDatabase.GetDependencies(path, false);
         foreach (var dependency in dependencies)
         {
@@ -137,22 +172,24 @@ public static class AssetBundleBuilder
     /// <returns></returns>
     public static bool LoopAllUnityObjectsInFolder(string relativePath, Action<Object> processAction, Func<string, bool> filter = null)
     {
-        //路径是否合法
+        //路径是否合法 
         if (!IsFolder(relativePath))
         {
             EditorUtility.DisplayDialog("Error", string.Format("路径{0}不合法，请选择文件夹进行操作", relativePath), "确定");
             return false;
         }
-        else
+        else 
         {
+            //同意操作
             if (EditorUtility.DisplayDialog("Tip", string.Format("即将对{0}进行操作", relativePath), "确定", "取消"))
             {
+                //绝对路径
                 var dir = relativePath.ToAbsolatePath();
                 if (!Directory.Exists(dir))
                 {
                     return false;
                 }
-                LoopAllUnityObjectsInFolderRecursive(relativePath.ToAbsolatePath(), processAction, filter);
+                LoopAllUnityObjectsInFolderRecursive(dir, processAction, filter);
                 return true;
             }
             else
@@ -188,7 +225,7 @@ public static class AssetBundleBuilder
 
             if (!file.EndsWith(".meta"))
             { 
-                //加载资源
+                //加载资源 需要转换为相对路径
                 var obj = AssetDatabase.LoadMainAssetAtPath(file.ToRelativePath());
                 if (null != processAction)
                 {
@@ -205,6 +242,7 @@ public static class AssetBundleBuilder
     /// <returns></returns>
     public static bool IsFolder(string path)
     {
+        //获取主资产对象的类型
         var type = AssetDatabase.GetMainAssetTypeAtPath(path);
         if (type != typeof(DefaultAsset))
         {
@@ -244,15 +282,20 @@ public static class AssetBundleBuilder
             Directory.CreateDirectory(ABPath);
         }
         
-        foreach (var dic in allABBuildDict)
-        {
-            Debug.Log(dic.Key);
-            string[] name = dic.Value.assetNames;
-            foreach (var n in name)
-            {
-                Debug.Log(n);
-            }
-        }
+        //设置包名
+        BuildABSymbol();
+        // Debug.Log("BuildAssetBundle");
+        // Debug.Log(allABBuildDict.Count);
+        //
+        // foreach (var dic in allABBuildDict)
+        // {
+        //     Debug.Log(dic.Key);
+        //     string[] name = dic.Value.assetNames;
+        //     foreach (var n in name)
+        //     {
+        //         Debug.Log(n);
+        //     }
+        // }
         
         BuildPipeline.BuildAssetBundles(ABPath, allABBuildDict.Values.ToArray(),BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
     }

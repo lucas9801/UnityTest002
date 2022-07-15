@@ -300,8 +300,28 @@ public static class ExampleConfig
                 new List<string>(){"System.IO.DirectoryInfo", "CreateSubdirectory", "System.String", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"System.IO.DirectoryInfo", "Create", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"UnityEngine.MonoBehaviour", "runInEditMode"},
-            };
-
+                new List<string>(){"UnityEngine.AnimatorControllerParameter", "name"},
+                new List<string>(){"UnityEngine.AudioSettings", "GetSpatializerPluginNames"},
+                new List<string>(){"UnityEngine.AudioSettings", "SetSpatializerPluginName", "System.String"},
+                new List<string>(){"UnityEngine.Caching", "SetNoBackupFlag", "UnityEngine.CachedAssetBundle"},
+                new List<string>(){"UnityEngine.Caching", "SetNoBackupFlag", "System.String", "UnityEngine.Hash128"},
+                new List<string>(){"UnityEngine.Caching", "ResetNoBackupFlag", "UnityEngine.CachedAssetBundle"},
+                new List<string>(){"UnityEngine.Caching", "ResetNoBackupFlag", "System.String", "UnityEngine.Hash128"},
+                new List<string>(){"UnityEngine.DrivenRectTransformTracker", "StopRecordingUndo"},
+                new List<string>(){"UnityEngine.DrivenRectTransformTracker", "StartRecordingUndo"},
+                new List<string>(){"UnityEngine.Input", "IsJoystickPreconfigured", "System.String"},
+                new List<string>(){"UnityEngine.LightProbeGroup", "dering"},
+                new List<string>(){"UnityEngine.Light", "SetLightDirty"},
+                new List<string>(){"UnityEngine.Light", "shadowRadius"},
+                new List<string>(){"UnityEngine.Light", "shadowAngle"},
+                new List<string>(){"UnityEngine.ParticleSystemForceField", "FindAll"},
+                new List<string>(){"UnityEngine.Texture", "imageContentsHash"},
+                new List<string>(){"UnityEngine.UI.Graphic", "OnRebuildRequested"},
+                new List<string>(){"UnityEngine.UI.Text", "OnRebuildRequested"},
+                new List<string>(){"UnityEngine.LightProbeGroup", "probePositions"},
+                new List<string>(){"UnityEngine.QualitySettings", "streamingMipmapsRenderersPerFrame"},
+    };
+    
 #if UNITY_2018_1_OR_NEWER
     [BlackList]
     public static Func<MemberInfo, bool> MethodFilter = (memberInfo) =>
